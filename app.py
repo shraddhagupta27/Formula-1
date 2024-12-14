@@ -2,6 +2,12 @@ import pandas as pd
 import plotly.express as px
 from flask import Flask, render_template
 import plotly.graph_objects as go
+import pandas as pd
+import plotly.express as px
+import pandas as pd
+import dash  # Importing the dash module explicitly to access callback_context
+from dash import Dash, dcc, html, Input, Output
+import plotly.express as px
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -9,8 +15,16 @@ app = Flask(__name__)
 
 # choropleth
 
+# # Load data
 circuits = pd.read_csv("data/circuits.csv")
 races = pd.read_csv("data/races.csv")
+drivers = pd.read_csv("data/drivers.csv")
+constructors = pd.read_csv("data/constructors.csv")
+results = pd.read_csv("data/results.csv")
+file_path = (
+    "data/f1_constructor_driver_points_2015_2024.csv"  # Replace with your file path
+)
+data2 = pd.read_csv(file_path)
 
 # races["year"] = races["year"].astype(int)
 circuit_races = pd.merge(circuits, races, on="circuitId")
@@ -150,22 +164,6 @@ fig.update_layout(
 
 
 # treemap
-
-import pandas as pd
-import plotly.express as px
-import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from datetime import datetime
-import dash  # Importing the dash module explicitly to access callback_context
-from dash import Dash, dcc, html, Input, Output, State
-import plotly.express as px
-
-# # Load data
-drivers = pd.read_csv("data/drivers.csv")
-constructors = pd.read_csv("data/constructors.csv")
-results = pd.read_csv("data/results.csv")
 
 # Merge datasets
 race_winners = results[results["positionOrder"] == 1]  # Filter for race winners
@@ -455,11 +453,6 @@ fig3.update_layout(
 
 
 # barr
-
-file_path = (
-    "data/f1_constructor_driver_points_2015_2024.csv"  # Replace with your file path
-)
-data2 = pd.read_csv(file_path)
 
 # Get the list of unique years
 years = sorted(data2["Year"].unique())
