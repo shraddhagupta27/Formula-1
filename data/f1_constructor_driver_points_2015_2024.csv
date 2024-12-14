@@ -1,0 +1,221 @@
+Year,Team,Drivers,Points,Colour
+2024,McLaren Mercedes,Lando Norris,374,#f87c00
+2024,McLaren Mercedes,Oscar Piastri,292,#f87c00
+2024,Ferrari,Charles Leclerc,356,#e80020
+2024,Ferrari,Carlos Sainz,290,#e80020
+2024,Red Bull Racing Honda RBPT,Max Verstappen,437,#356ec1
+2024,Red Bull Racing Honda RBPT,Sergio Perez,152,#356ec1
+2024,Mercedes,Lewis Hamilton,223,#27f4d2
+2024,Mercedes,George Russell,245,#27f4d2
+2024,Aston Martin Aramco Mercedes,Fernando Alonso,70,#21926c
+2024,Aston Martin Aramco Mercedes,Lance Stroll,24,#21926c
+2024,Alpine Renault,Pierre Gasly,42,#0093cc
+2024,Alpine Renault,Esteban Ocon,23,#0093cc
+2024,Alpine Renault,Jack Doohan,0,#0093cc
+2024,Haas Ferrari,Nico Hulkenberg,41,#b2b6b9
+2024,Haas Ferrari,Kevin Magnussen,16,#b2b6b9
+2024,Haas Ferrari,Oliver Bearman,7,#b2b6b9
+2024,RB Honda RBPT,Yuki Tsunoda,30,#6692ff
+2024,RB Honda RBPT,Daniel Ricciardo,12,#6692ff
+2024,RB Honda RBPT,Liam Lawson,4,#6692ff
+2024,Williams Mercedes,Alexander Albon,12,#61bff8
+2024,Williams Mercedes,Franco Colapinto,5,#61bff8
+2024,Williams Mercedes,Logan Sargeant,0,#61bff8
+2024,Kick Sauber Ferrari,Zhou Guanyu,4,#50ff70
+2024,Kick Sauber Ferrari,Valtteri Bottas,0,#50ff70
+2023,Red Bull Racing Honda RBPT,Max Verstappen,575,#356ec1
+2023,Red Bull Racing Honda RBPT,Sergio Perez,285,#356ec1
+2023,Mercedes,Lewis Hamilton,234,#27f4d2
+2023,Mercedes,George Russell,175,#27f4d2
+2023,Ferrari,Charles Leclerc,206,#e80020
+2023,Ferrari,Carlos Sainz,200,#e80020
+2023,McLaren Mercedes,Lando Norris,205,#f87c00
+2023,McLaren Mercedes,Oscar Piastri,97,#f87c00
+2023,Aston Martin Aramco Mercedes,Fernando Alonso,206,#21926c
+2023,Aston Martin Aramco Mercedes,Lance Stroll,74,#21926c
+2023,Alpine Renault,Pierre Gasly,62,#0093cc
+2023,Alpine Renault,Esteban Ocon,58,#0093cc
+2023,Williams Mercedes,Alexander Albon,27,#61bff8
+2023,Williams Mercedes,Logan Sargeant,1,#61bff8
+2023,AlphaTauri Honda RBPT,Yuki Tsunoda,17,#20394C
+2023,AlphaTauri Honda RBPT,Daniel Ricciardo,6,#20394C
+2023,AlphaTauri Honda RBPT,Liam Lawson,2,#20394C
+2023,AlphaTauri Honda RBPT,Nyck De Vries,0,#20394C
+2023,Alfa Romeo Ferrari,Valtteri Bottas,10,#A42134
+2023,Alfa Romeo Ferrari,Zhou Guanyu,6,#A42134
+2023,Haas Ferrari,Nico Hulkenberg,9,#5A5A5A
+2023,Haas Ferrari,Kevin Magnussen,3,#5A5A5A
+2022,Red Bull Racing RBPT,Max Verstappen,454,#356ec1
+2022,Red Bull Racing RBPT,Sergio Perez,305,#356ec1
+2022,Ferrari,Charles Leclerc,308,#e80020
+2022,Ferrari,Carlos Sainz,246,#e80020
+2022,Mercedes,Lewis Hamilton,240,#27f4d2
+2022,Mercedes,George Russell,275,#27f4d2
+2022,Alpine Renault,Esteban Ocon,92,#0093cc
+2022,Alpine Renault,Fernando Alonso,81,#0093cc
+2022,McLaren Mercedes,Lando Norris,122,#f87c00
+2022,McLaren Mercedes,Daniel Ricciardo,37,#f87c00
+2022,Alfa Romeo Ferrari,Valtteri Bottas,49,#A42134
+2022,Alfa Romeo Ferrari,Zhou Guanyu,6,#A42135
+2022,Aston Martin Aramco Mercedes,Sebastian Vettel,37,#21926c
+2022,Aston Martin Aramco Mercedes,Lance Stroll,18,#21926c
+2022,Aston Martin Aramco Mercedes,Nico Hulkenberg,0,#21926c
+2022,Haas Ferrari,Kevin Magnussen,25,#5A5A5A
+2022,Haas Ferrari,Mick Schumacher,12,#5A5A5A
+2022,AlphaTauri RBPT,Pierre Gasly,23,#20394C
+2022,AlphaTauri RBPT,Yuki Tsunoda,12,#20394C
+2022,Williams Mercedes,Alexander Albon,4,#61bff8
+2022,Williams Mercedes,Nicholas Latifi,2,#61bff8
+2022,Williams Mercedes,Nyck De Vries,2,#61bff8
+2021,Mercedes,Lewis Hamilton,387.5,#27f4d2
+2021,Mercedes,Valtteri Bottas,226,#27f4d2
+2021,Red Bull Racing Honda,Max Verstappen,395.5,#356ec1
+2021,Red Bull Racing Honda,Sergio Perez,190,#356ec1
+2021,Ferrari,Carlos Sainz,164.5,#e80020
+2021,Ferrari,Charles Leclerc,159,#e80020
+2021,McLaren Mercedes,Lando Norris,160,#f87c00
+2021,McLaren Mercedes,Daniel Ricciardo,115,#f87c00
+2021,Alpine Renault,Fernando Alonso,81,#0093cc
+2021,Alpine Renault,Esteban Ocon,74,#0093cc
+2021,AlphaTauri Honda,Pierre Gasly,110,#20394C
+2021,AlphaTauri Honda,Yuki Tsunoda,32,#20394C
+2021,Aston Martin Mercedes,Sebastian Vettel,43,#21926c
+2021,Aston Martin Mercedes,Lance Stroll,34,#21926c
+2021,Williams Mercedes,George Russell,16,#61bff8
+2021,Williams Mercedes,Nicholas Latifi,7,#61bff8
+2021,Alfa Romeo Racing Ferrari,Kimi Räikkönen,10,#A42134
+2021,Alfa Romeo Racing Ferrari,Antonio Giovinazzi,3,#A42134
+2021,Alfa Romeo Racing Ferrari,Robert Kubica,0,#A42134
+2021,Haas Ferrari,Mick Schumacher,0,#5A5A5A
+2021,Haas Ferrari,Nikita Mazepin,0,#5A5A5A
+2020,Mercedes,Lewis Hamilton,347,#27f4d2
+2020,Mercedes,Valtteri Bottas,223,#27f4d2
+2020,Red Bull Racing Honda,Max Verstappen,214,#356ec1
+2020,Red Bull Racing Honda,Alexander Albon,105,#356ec1
+2020,McLaren Renault,Carlos Sainz,105,#FF8700
+2020,McLaren Renault,Lando Norris,97,#FF8700
+2020,Racing Point BWT Mercedes,Sergio Perez,125,#F596C8
+2020,Racing Point BWT Mercedes,Lance Stroll,75,#F596C8
+2020,Racing Point BWT Mercedes,Nico Hulkenberg,10,#F596C8
+2020,Renault,Daniel Ricciardo,119,#FFF500
+2020,Renault,Esteban Ocon,62,#FFF500
+2020,Ferrari,Charles Leclerc,98,#e80020
+2020,Ferrari,Sebastian Vettel,33,#e80020
+2020,AlphaTauri Honda,Pierre Gasly,75,#20394C
+2020,AlphaTauri Honda,Daniil Kvyat,32,#20394C
+2020,Alfa Romeo Racing Ferrari,Kimi Räikkönen,4,#A42134
+2020,Alfa Romeo Racing Ferrari,Antonio Giovinazzi,4,#A42134
+2020,Haas Ferrari,Romain Grosjean,2,#5A5A5A
+2020,Haas Ferrari,Kevin Magnussen,1,#5A5A5A
+2020,Haas Ferrari,Pietro Fittipaldi,0,#5A5A5A
+2020,Williams Mercedes,George Russell,0,#61bff8
+2020,Williams Mercedes,Nicholas Latifi,0,#61bff8
+2020,Williams Mercedes,Jack Aitken,0,#61bff8
+2019,Mercedes,Lewis Hamilton,413,#27f4d2
+2019,Mercedes,Valtteri Bottas,326,#27f4d2
+2019,Ferrari,Charles Leclerc,264,#e80020
+2019,Ferrari,Sebastian Vettel,240,#e80020
+2019,Red Bull Racing Honda,Max Verstappen,278,#356ec1
+2019,Red Bull Racing Honda,Alexander Albon,92,#356ec1
+2019,McLaren Renault,Carlos Sainz,96,#FF8700
+2019,McLaren Renault,Lando Norris,49,#FF8700
+2019,Renault,Daniel Ricciardo,54,#FFF500
+2019,Renault,Nico Hulkenberg,37,#FFF500
+2019,Scuderia Toro Rosso Honda,Pierre Gasly,95,#0032FF
+2019,Scuderia Toro Rosso Honda,Daniil Kvyat,37,#0032FF
+2019,Racing Point BWT Mercedes,Sergio Perez,52,#F596C8
+2019,Racing Point BWT Mercedes,Lance Stroll,21,#F596C8
+2019,Alfa Romeo Racing Ferrari,Kimi Räikkönen,43,#A42134
+2019,Alfa Romeo Racing Ferrari,Antonio Giovinazzi,14,#A42134
+2019,Haas Ferrari,Kevin Magnussen,20,#5A5A5A
+2019,Haas Ferrari,Romain Grosjean,8,#5A5A5A
+2019,Williams Mercedes,Robert Kubica,1,#61bff8
+2019,Williams Mercedes,George Russell,0,#61bff8
+2018,Mercedes,Lewis Hamilton,408,#27f4d2
+2018,Mercedes,Valtteri Bottas,247,#27f4d2
+2018,Ferrari,Sebastian Vettel,320,#e80020
+2018,Ferrari,Kimi Räikkönen,251,#e80020
+2018,Red Bull Racing TAG Heuer,Max Verstappen,249,#356ec1
+2018,Red Bull Racing TAG Heuer,Daniel Ricciardo,170,#356ec1
+2018,Renault,Nico Hulkenberg,69,#FFF500
+2018,Renault,Carlos Sainz,53,#FFF500
+2018,Haas Ferrari,Kevin Magnussen,56,#5A5A5A
+2018,Haas Ferrari,Romain Grosjean,37,#5A5A5A
+2018,McLaren Renault,Fernando Alonso,50,#FF8700
+2018,McLaren Renault,Stoffel Vandoorne,12,#FF8700
+2018,Force India Mercedes,Sergio Perez,62,#F596C8
+2018,Force India Mercedes,Esteban Ocon,49,#F596C8
+2018,Sauber Ferrari,Charles Leclerc,39,#9B0000
+2018,Sauber Ferrari,Marcus Ericsson,9,#9B0000
+2018,Scuderia Toro Rosso Honda,Pierre Gasly,29,#0032FF
+2018,Scuderia Toro Rosso Honda,Brendon Hartley,4,#0032FF
+2018,Williams Mercedes,Lance Stroll,6,#61bff8
+2018,Williams Mercedes,Sergey Sirotkin,1,#61bff8
+2017,Mercedes,Lewis Hamilton,363,#27f4d2
+2017,Mercedes,Valtteri Bottas,305,#27f4d2
+2017,Ferrari,Sebastian Vettel,317,#e80020
+2017,Ferrari,Kimi Räikkönen,205,#e80020
+2017,Red Bull Racing TAG Heuer,Daniel Ricciardo,200,#356ec1
+2017,Red Bull Racing TAG Heuer,Max Verstappen,168,#356ec1
+2017,Force India Mercedes,Sergio Perez,100,#F596C8
+2017,Force India Mercedes,Esteban Ocon,87,#F596C8
+2017,Williams Mercedes,Felipe Massa,43,#61bff8
+2017,Williams Mercedes,Lance Stroll,40,#61bff8
+2017,Renault,Carlos Sainz,54,#FFF500
+2017,Renault,Nico Hulkenberg,43,#FFF500
+2017,Renault,Jolyon Palmer,8,#FFF500
+2017,Toro Rosso,Daniil Kvyat,5,#0000ff
+2017,Toro Rosso,Pierre Gasly,0,#0000ff
+2017,Toro Rosso,Brendon Hartley,0,#0000ff
+2017,Haas Ferrari,Romain Grosjean,28,#5A5A5A
+2017,Haas Ferrari,Kevin Magnussen,19,#5A5A5A
+2017,McLaren Honda,Fernando Alonso,17,#FF7B08
+2017,McLaren Honda,Stoffel Vandoorne,13,#FF7B08
+2017,Sauber Ferrari,Pascal Wehrlein,5,#9B0000
+2017,Sauber Ferrari,Marcus Ericsson,0,#9B0000
+2017,Sauber Ferrari,Antonio Giovinazzi,0,#9B0000
+2016,Mercedes,Nico Rosberg,385,#27f4d2
+2016,Mercedes,Lewis Hamilton,380,#27f4d2
+2016,Red Bull Racing TAG Heuer,Daniel Ricciardo,256,#356ec1
+2016,Red Bull Racing TAG Heuer,Max Verstappen,204,#356ec1
+2016,Ferrari,Sebastian Vettel,212,#e80020
+2016,Ferrari,Kimi Räikkönen,186,#e80020
+2016,Force India Mercedes,Sergio Perez,101,#F596C8
+2016,Force India Mercedes,Nico Hulkenberg,72,#F596C8
+2016,Williams Mercedes,Valtteri Bottas,85,#61bff8
+2016,Williams Mercedes,Felipe Massa,53,#61bff8
+2016,McLaren Honda,Fernando Alonso,54,#FF7B08
+2016,McLaren Honda,Jenson Button,21,#FF7B08
+2016,McLaren Honda,Stoffel Vandoorne,1,#FF7B08
+2016,Toro Rosso Ferrari,Carlos Sainz,46,#0005C1
+2016,Toro Rosso Ferrari,Daniil Kvyat,25,#0005C1
+2016,Haas Ferrari,Romain Grosjean,29,#5A5A5A
+2016,Haas Ferrari,Esteban Gutierrez,0,#5A5A5A
+2016,Renault,Kevin Magnussen,7,#FFF500
+2016,Renault,Jolyon Palmer,1,#FFF500
+2016,Sauber Ferrari,Felipe Nasr,2,#9B0000
+2016,Sauber Ferrari,Marcus Ericsson,0,#9B0000
+2016,MRT Mercedes,Pascal Wehrlein,1,#006DC1
+2016,MRT Mercedes,Esteban Ocon,0,#006DC1
+2016,MRT Mercedes,Rio Haryanto,0,#006DC1
+2015,Mercedes,Lewis Hamilton,381,#27f4d2
+2015,Mercedes,Nico Rosberg,322,#27f4d2
+2015,Ferrari,Sebastian Vettel,278,#e80020
+2015,Ferrari,Kimi Räikkönen,150,#e80020
+2015,Williams Mercedes,Valtteri Bottas,136,#61bff8
+2015,Williams Mercedes,Felipe Massa,121,#61bff8
+2015,Red Bull Racing Renault,Daniil Kvyat,95,#356ec1
+2015,Red Bull Racing Renault,Daniel Ricciardo,92,#356ec1
+2015,Force India Mercedes,Sergio Perez,78,#F596C8
+2015,Force India Mercedes,Nico Hulkenberg,58,#F596C8
+2015,Lotus Mercedes,Romain Grosjean,51,#FFB800
+2015,Lotus Mercedes,Pastor Maldonado,27,#FFB800
+2015,STR Renault,Max Verstappen,49,#FFF500
+2015,STR Renault,Carlos Sainz,18,#FFF500
+2015,Sauber Ferrari,Felipe Nasr,27,#9B0000
+2015,Sauber Ferrari,Marcus Ericsson,9,#9B0000
+2015,McLaren Honda,Jenson Button,16,#FF7B08
+2015,McLaren Honda,Fernando Alonso,11,#FF7B08
+2015,Marussia Ferrari,Roberto Merhi,0,#6E0000
+2015,Marussia Ferrari,Alexander Rossi,0,#6E0000
+2015,Marussia Ferrari,Will Stevens,0,#6E0000
