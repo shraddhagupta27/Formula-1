@@ -8,6 +8,7 @@ import pandas as pd
 import dash  # Importing the dash module explicitly to access callback_context
 from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
+import os
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -72,8 +73,8 @@ choropleth_fig = px.choropleth(
 )
 
 choropleth_fig.update_layout(
-    width=1800,  # Adjust the width of the map
-    height=900,
+    # width=1800,  # Adjust the width of the map
+    height=700,
     geo=dict(showframe=False, showcoastlines=True, projection_type="natural earth"),
     coloraxis_colorbar=dict(
         title="Number of Races",
@@ -158,8 +159,8 @@ fig.update_layout(
     showlegend=False,  # Hide legend
     plot_bgcolor="white",  # White background for contrast
     paper_bgcolor="white",  # White paper background
-    width=1800,
-    height=900,
+    # width=1800,
+    height=700,
 )
 
 
@@ -447,8 +448,8 @@ fig3.update_layout(
     yaxis=dict(title="Number of Wins"),
     legend_title="Driver",
     hovermode="closest",
-    width=1800,
-    height=900,
+    # width=1800,
+    height=700,
 )
 
 
@@ -517,8 +518,8 @@ fig4.update_layout(
     paper_bgcolor="white",
     barmode="group",  # Grouped bar chart
     legend_title="Teams",  # Set legend title
-    width=1800,  # Adjust the width of the map
-    height=900,
+    # width=1800,  # Adjust the width of the map
+    height=700,
 )
 
 
@@ -548,4 +549,5 @@ def index():
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
+    app.run(debug=True, host='0.0.0.0', port=port)

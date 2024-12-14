@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,19 @@
     <!-- You can add your custom CSS here if you want -->
     <style>
         body {
-            background-image: url("/static/img1.jpg"); /* Set the background image */
-            background-size: cover; /* Make the image cover the entire page */
-            background-position: center; /* Center the background */
+            background-image: url("/static/img1.jpg");
+            /* Set the background image */
+            background-size: cover;
+            /* Make the image cover the entire page */
+            background-position: center;
+            /* Center the background */
             font-family: 'Georgia', serif;
             color: #333;
         }
+
         .container {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for the content */
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Semi-transparent white background for the content */
             border-radius: 12px;
             padding: 40px;
             margin-top: 40px;
@@ -22,34 +28,42 @@
             margin-left: auto;
             margin-right: auto;
         }
-        h1, h2 {
+
+        h1,
+        h2 {
             text-align: center;
             font-weight: bold;
         }
+
         h1 {
             font-size: 90px;
             color: #fff;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
+
         h2 {
             font-size: 48px;
             color: #1a73e8;
             margin-top: 50px;
         }
+
         .header {
             text-align: center;
             margin-top: 40px;
             margin-bottom: 50px;
         }
+
         .header img {
             height: 200px;
             margin: 0 10px;
         }
+
         /* Subtle animation */
         .fade-in {
             opacity: 0;
             animation: fadeIn 1s forwards;
         }
+
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -57,19 +71,35 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header fade-in" style="text-align: center; margin-top: 20px;">
-        <img src="/static/f1-car-left.jpg" style="height: 200px; margin-right: 10px;">
-        <h1 style="color: #fff; font-size: 100px; display: inline;">World of Formula 1</h1>
-        <img src="/static/f1-car-right.jpg" style="height: 200px; margin-left: 10px;">
+        <img src="/static/f1-car-left.jpg" style="height: 200px;">
+        <h1 style="color: #fff; font-size: 80px; display: inline;">World of Formula 1</h1>
+        <img src="/static/f1-car-right.jpg" style="height: 200px;">
     </div>
 
     <div class="container fade-in">
-        <p style="font-size: 30px; color: #333333;">Formula 1, often referred to as the pinnacle of motorsport, has been gaining unprecedented popularity in recent years. It's not just about fast cars, talented drivers, and competitive teams—it's a world full of drama and excitement that captivates fans across the globe. Historically, F1 attracted a predominantly male audience, but the sport has seen a significant shift under new leadership. In November 2022, F1 CEO Stefano Domenicali revealed that 40% of global F1 fans were women—a remarkable 8% increase since 2017. We, too, found ourselves intrigued by the world of F1 while working on this project. The more we explored the more our fascination grew. And just like us, we hope this journey will spark your curiosity and perhaps turn you into a fan by the end of it!</p>
-        <p style="font-size: 30px; color: #333333; margin-bottom: 100px;">To bring F1’s story to life, we’ve leveraged a comprehensive dataset from Kaggle, which originates from the official F1 website. The dataset is rich with information on constructors, drivers, races, lap times, and more. Verified and detailed, it offers a glimpse into the sport's intricate world.</p>
-        
+        <p style="font-size: 30px; color: #333333;">Formula 1, often referred to as the pinnacle of motorsport, has been
+            gaining unprecedented popularity in recent years. It's not just about fast cars, talented drivers, and
+            competitive teams—it's a world full of drama and excitement that captivates fans across the globe.
+            Historically, F1 attracted a predominantly male audience, but the sport has seen a significant shift under
+            new leadership. In November 2022, F1 CEO Stefano Domenicali revealed that 40% of global F1 fans were women—a
+            remarkable 8% increase since 2017. We, too, found ourselves intrigued by the world of F1 while working on
+            this project. The more we explored the more our fascination grew. And just like us, we hope this journey
+            will spark your curiosity and perhaps turn you into a fan by the end of it!</p>
+        <p style="font-size: 30px; color: #333333; margin-bottom: 100px;">To bring F1’s story to life, we’ve leveraged a
+            comprehensive dataset from Kaggle, which originates from the official F1 website. The dataset is rich with
+            information on constructors, drivers, races, lap times, and more. Verified and detailed, it offers a glimpse
+            into the sport's intricate world.</p>
+
         <p style="font-size: 30px; color: #333333;">Our journey begins with the foundation of F1: the circuits.</p>
-        <p style="font-size: 30px; color: #333333;">Circuits are the heartbeat of Formula 1. They are where the action unfolds, and each track has its own personality—from the tight corners of Monaco to the high-speed straights of Monza. Understanding where races are held over the years gives us a clear picture of how the sport has expanded globally. Our first visualization focuses on the countries hosting F1 races over the years and the number of races held in each. This animated choropleth map shows the progression of F1's global reach, emphasizing its expansion into new territories and the increasing diversity of its calendar.</p>
+        <p style="font-size: 30px; color: #333333;">Circuits are the heartbeat of Formula 1. They are where the action
+            unfolds, and each track has its own personality—from the tight corners of Monaco to the high-speed straights
+            of Monza. Understanding where races are held over the years gives us a clear picture of how the sport has
+            expanded globally. Our first visualization focuses on the countries hosting F1 races over the years and the
+            number of races held in each. This animated choropleth map shows the progression of F1's global reach,
+            emphasizing its expansion into new territories and the increasing diversity of its calendar.</p>
         <h2 style="color: #1a73e8; font-size: 50px;">Expansion of Formula 1 Over Time</h2>
         <p style="font-size: 30px; color: #333333; font-weight: bold">What You'll Learn : </p>
         <ul style="color: #333333; font-size: 30px;">
@@ -81,42 +111,63 @@
             <!-- Embed the choropleth map -->
             {{ choropleth_html | safe }}
         </div>
-        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Did you know that Singapore hosted the first-ever night race in F1 history in 2008, setting a trend for dramatic under-the-lights racing?</p>
-        
-        
-        <p style="font-size: 30px; color: #333333;">Certain circuits are more than just venues; they are legendary battlefields where rivalries are born. Some tracks, like Silverstone and Monza, have been a mainstay in the F1 calendar, hosting races year after year. </p>
-        <p style="font-size: 30px; color: #333333;">Here is an interactive bar chart highlighting the top 10 circuits with the most races. Just hover to uncover circuit-specific details, including the number of races and explore how these circuits have shaped F1’s history.</p>
-        <h2 style="color: #1a73e8; font-size: 50px; margin-top: 50px;">Top 10 Circuits with the Highest Number of Races</h2>
+        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Did you
+            know that Singapore hosted the first-ever night race in F1 history in 2008, setting a trend for dramatic
+            under-the-lights racing?</p>
+
+
+        <p style="font-size: 30px; color: #333333;">Certain circuits are more than just venues; they are legendary
+            battlefields where rivalries are born. Some tracks, like Silverstone and Monza, have been a mainstay in the
+            F1 calendar, hosting races year after year. </p>
+        <p style="font-size: 30px; color: #333333;">Here is an interactive bar chart highlighting the top 10 circuits
+            with the most races. Just hover to uncover circuit-specific details, including the number of races and
+            explore how these circuits have shaped F1’s history.</p>
+        <h2 style="color: #1a73e8; font-size: 50px; margin-top: 50px;">Top 10 Circuits with the Highest Number of Races
+        </h2>
         <p style="font-size: 30px; color: #333333; font-weight: bold">What You'll Learn : </p>
         <ul style="color: #333333; font-size: 30px;">
-            <li>Why Monaco, despite being one of the shortest tracks, remains a fan favorite for its challenging layout and glamour.</li>
+            <li>Why Monaco, despite being one of the shortest tracks, remains a fan favorite for its challenging layout
+                and glamour.</li>
             <li>The enduring legacy of Silverstone, the birthplace of F1 in 1950.</li>
         </ul>
         <div style="text-align: center;">
             <!-- Embed the Bokeh plot -->
             {{ bar_html | safe }}
         </div>
-        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Monza circuit is the oldest and also known as "The Temple of Speed" due to its long straights and high-speed corners.</p>
-        
+        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Monza
+            circuit is the oldest and also known as "The Temple of Speed" due to its long straights and high-speed
+            corners.</p>
 
-        <p style="font-size: 30px; color: #333333;">F1 is as much about teams as it is about drivers. Constructors like Ferrari, McLaren, and Mercedes have not only defined eras but also set benchmarks for technological and strategic excellence. </p>
-        <p style="font-size: 30px; color: #333333;">Here is an interactive treemap displaying the top 10 constructors by their total race wins. Just click on any constructor to dive deeper into their driver roster and their contributions to victories. This is a color-coded representation showing the dominance of teams over time.</p>
+
+        <p style="font-size: 30px; color: #333333;">F1 is as much about teams as it is about drivers. Constructors like
+            Ferrari, McLaren, and Mercedes have not only defined eras but also set benchmarks for technological and
+            strategic excellence. </p>
+        <p style="font-size: 30px; color: #333333;">Here is an interactive treemap displaying the top 10 constructors by
+            their total race wins. Just click on any constructor to dive deeper into their driver roster and their
+            contributions to victories. This is a color-coded representation showing the dominance of teams over time.
+        </p>
         <h2 style="color: #1a73e8; font-size: 50px; margin-top: 50px;">Top 10 Constructors by Wins</h2>
         <p style="font-size: 30px; color: #333333; font-weight: bold">What You'll Learn : </p>
         <ul style="color: #333333; font-size: 30px;">
             <li>The legacy of Ferrari, the most successful and oldest team in F1 history.</li>
             <li>The rise of Mercedes as a dominant force in the hybrid era (post-2014).</li>
-            <li>Contributions of legendary drivers like Ayrton Senna, Alain Prost, and Lewis Hamilton to their teams’ glory.</li>
+            <li>Contributions of legendary drivers like Ayrton Senna, Alain Prost, and Lewis Hamilton to their teams’
+                glory.</li>
         </ul>
         <div style="text-align: center;">
             <iframe src="/dash/" width="100%" height="800"></iframe>
         </div>
-        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Ferrari has participated in every F1 season since 1950, a record unmatched by any other constructor.</p>
-        
+        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Ferrari
+            has participated in every F1 season since 1950, a record unmatched by any other constructor.</p>
 
 
-        <p style="font-size: 30px; color: #333333;">Drivers are the soul of Formula 1, embodying speed, skill, and charisma. But winning consistently across seasons requires a blend of talent, resilience, and adaptability. This visualization focuses on the top drivers from 2015 onward.</p>
-        <p style="font-size: 30px; color: #333333;">Here is an interactive line chart tracking the number of wins for the top 10 drivers across seasons. Just hover to reveal details about individual races, wins, and driver statistics and compare performances with color-coded lines for each driver.</p>
+
+        <p style="font-size: 30px; color: #333333;">Drivers are the soul of Formula 1, embodying speed, skill, and
+            charisma. But winning consistently across seasons requires a blend of talent, resilience, and adaptability.
+            This visualization focuses on the top drivers from 2015 onward.</p>
+        <p style="font-size: 30px; color: #333333;">Here is an interactive line chart tracking the number of wins for
+            the top 10 drivers across seasons. Just hover to reveal details about individual races, wins, and driver
+            statistics and compare performances with color-coded lines for each driver.</p>
         <h2 style="color: #1a73e8; font-size: 50px; margin-top: 50px;">Top 10 drivers by wins across seasons</h2>
         <p style="font-size: 30px; color: #333333; font-weight: bold">What You'll Learn : </p>
         <ul style="color: #333333; font-size: 30px;">
@@ -128,12 +179,19 @@
             <!-- Embed the Bokeh plot -->
             {{ line_html | safe }}
         </div>
-        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - The Average Driver Loses 3kg In One Race.</p>
-        
+        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - The
+            Average Driver Loses 3kg In One Race.</p>
 
-        <p style="font-size: 30px; color: #333333;">F1 is a team sport, and every driver plays a crucial role in contributing to their team’s success. This grouped bar chart highlights how points are distributed among drivers for each team, across seasons from 2015 to 2024.</p>
-        <p style="font-size: 30px; color: #333333;">Here is an interactive interactive bar chart visualization of Formula 1 driver points from 2015 to 2024. The primary feature of the visualization is a dropdown menu that allows users to toggle between years, displaying the points scored by drivers for each team during the selected season.</p>
-        <h2 style="color: #1a73e8; font-size: 50px; margin-top: 50px;">Team and Driver Contributions to Points (2015–2024)</h2>
+
+        <p style="font-size: 30px; color: #333333;">F1 is a team sport, and every driver plays a crucial role in
+            contributing to their team’s success. This grouped bar chart highlights how points are distributed among
+            drivers for each team, across seasons from 2015 to 2024.</p>
+        <p style="font-size: 30px; color: #333333;">Here is an interactive interactive bar chart visualization of
+            Formula 1 driver points from 2015 to 2024. The primary feature of the visualization is a dropdown menu that
+            allows users to toggle between years, displaying the points scored by drivers for each team during the
+            selected season.</p>
+        <h2 style="color: #1a73e8; font-size: 50px; margin-top: 50px;">Team and Driver Contributions to Points
+            (2015–2024)</h2>
         <p style="font-size: 30px; color: #333333; font-weight: bold">What You'll Learn : </p>
         <ul style="color: #333333; font-size: 30px;">
             <li>The drivers who have been instrumental to their teams’ success.</li>
@@ -144,15 +202,21 @@
             <!-- Embed the Bokeh plot -->
             {{ barr_html | safe }}
         </div>
-        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Did you know that in 2021, Verstappen and Hamilton fought for the championship in one of the most dramatic seasons in F1 history, decided on the last lap of the final race?</p>
-        
+        <p style="font-size: 20px; color: #179359; font-weight: bold; margin-bottom: 100px;">Interesting Fact - Did you
+            know that in 2021, Verstappen and Hamilton fought for the championship in one of the most dramatic seasons
+            in F1 history, decided on the last lap of the final race?</p>
 
-        <p style="font-size: 30px; color: #333333; ">Formula 1 isn’t just a sport; it’s a microcosm of human ambition, ingenuity, and resilience.</p>
-        <p style="font-size: 30px; color: #333333;">For New Fans - Discover F1's rich history, global appeal, and the factors that make it a thrilling spectacle.</p>
-        <p style="font-size: 30px; color: #333333;">For Seasoned Fans - Revisit iconic moments, analyze the evolution of the sport, and gain fresh insights from our data-driven visualizations.</p>
+
+        <p style="font-size: 30px; color: #333333; ">Formula 1 isn’t just a sport; it’s a microcosm of human ambition,
+            ingenuity, and resilience.</p>
+        <p style="font-size: 30px; color: #333333;">For New Fans - Discover F1's rich history, global appeal, and the
+            factors that make it a thrilling spectacle.</p>
+        <p style="font-size: 30px; color: #333333;">For Seasoned Fans - Revisit iconic moments, analyze the evolution of
+            the sport, and gain fresh insights from our data-driven visualizations.</p>
 
 
 
     </div>
 </body>
+
 </html>
