@@ -1,15 +1,7 @@
-import os
 import pandas as pd
 import plotly.express as px
 from flask import Flask, render_template
-from bokeh.plotting import figure, output_file, save
-from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.palettes import Spectral10
-from bokeh.embed import components
-from bokeh.transform import factor_cmap
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import ipywidgets as widgets
 
 # Initialize Flask app
 app = Flask(__name__)
