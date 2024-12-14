@@ -15,17 +15,17 @@ import ipywidgets as widgets
 app = Flask(__name__)
 
 # Load and prepare data
-data_path = "/Users/shraddhagupta/Downloads/archive 2 copy"
-files_and_columns = {}
-for file in os.listdir(data_path):
-    df = pd.read_csv(os.path.join(data_path, file))
-    files_and_columns[file] = list(df.columns)
+# data_path = "/Users/shraddhagupta/Downloads/archive 2 copy"
+# files_and_columns = {}
+# for file in os.listdir(data_path):
+#     df = pd.read_csv(os.path.join(data_path, file))
+#     files_and_columns[file] = list(df.columns)
 
 
 #choropleth 
 
-circuits = pd.read_csv(os.path.join(data_path, "circuits.csv"))
-races = pd.read_csv(os.path.join(data_path, "races.csv"))
+circuits = pd.read_csv("data/circuits.csv")
+races = pd.read_csv("data/races.csv")
 
 # races["year"] = races["year"].astype(int)
 circuit_races = pd.merge(circuits, races, on="circuitId")
@@ -81,41 +81,6 @@ choropleth_fig.update_layout(
 
 
 
-# # Count the number of races for each circuit
-# race_counts = races.groupby("circuitId").size().reset_index(name="race_count")
-# circuits_with_counts = pd.merge(race_counts, circuits[["circuitId", "name"]], on="circuitId")
-# top_10_circuits = circuits_with_counts.sort_values(by="race_count", ascending=False).head(10)
-
-# # Prepare the data for the bar chart
-# source = ColumnDataSource(data=dict(
-#     circuits=top_10_circuits["name"],
-#     counts=top_10_circuits["race_count"],
-# ))
-
-
-# fig = go.Figure(go.Bar(
-#     x=top_10_circuits["name"],
-#     y=top_10_circuits["race_count"],
-#     text=top_10_circuits["race_count"],
-#     textposition='auto',
-#     marker_color=top_10_circuits["race_count"],
-#     marker_colorscale='Spectral'
-# ))
-
-# # Customize the layout
-# fig.update_layout(
-#     title="Top 10 Circuits with Maximum Races",
-#     xaxis_title="Circuit",
-#     yaxis_title="Number of Races",
-#     xaxis_tickangle=-45,
-#     width=2000,
-#     height=1000,
-# )
-
-# # Add hover information
-# fig.update_traces(
-#     hovertemplate="<b>Circuit:</b> %{x}<br><b>Number of Races:</b> %{y}"
-# )
 
 # bar chart
 
@@ -193,9 +158,9 @@ from dash import Dash, dcc, html, Input, Output, State
 import plotly.express as px
 
 # # Load data
-drivers = pd.read_csv(os.path.join(data_path, "drivers.csv"))
-constructors = pd.read_csv(os.path.join(data_path, "constructors.csv"))
-results = pd.read_csv(os.path.join(data_path, "results.csv"))
+drivers = pd.read_csv("data/drivers.csv")
+constructors = pd.read_csv("data/constructors.csv")
+results = pd.read_csv("data/results.csv")
 
 # Merge datasets
 race_winners = results[results["positionOrder"] == 1]  # Filter for race winners
@@ -373,9 +338,6 @@ def update_treemap(click_data, n_clicks):
     )
     return fig2, "Click on a constructor to see driver details."
 
-# # Run the app
-# if __name__ == "__main__":
-#     app.run_server(debug=True, port=8060)
 
 
 
@@ -441,7 +403,7 @@ fig3.update_layout(
 
 # barr
 
-file_path = '/Users/shraddhagupta/Downloads/archive 2 copy/f1_constructor_driver_points_2015_2024.csv'  # Replace with your file path
+file_path = 'data/f1_constructor_driver_points_2015_2024.csv'  # Replace with your file path
 data2 = pd.read_csv(file_path)
 
 # Get the list of unique years
