@@ -1,0 +1,972 @@
+---
+title: '''FORMULA_ONE_ANALYSIS'''
+author: "Chaithra Nair, Shraddha Gupta, Aishwarya Mocherla"
+date: "2024-12-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#####LOADING LIBRARIES#####
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(reshape2)
+library(viridis)
+
+
+```
+
+
+#####DATA PRE-PROCESSING#####
+
+```{r}
+
+# Load data
+driver_standings <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/driver_standings.csv")
+drivers <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/drivers.csv")
+races <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/races.csv")
+results <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/results.csv")
+constructor_standings <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/constructor_standings.csv")
+constructors <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/constructors.csv")
+
+# Merge datasets
+merged_data <- results %>%
+  inner_join(races, by = "raceId") %>%
+  inner_join(constructor_standings, by = c("raceId", "constructorId")) %>%
+  inner_join(constructors, by = "constructorId") %>% # Add constructor name
+  inner_join(driver_standings, by = c("raceId", "driverId")) # Include driver standings
+
+# Convert date column to Date type
+merged_data$date <- as.Date(merged_data$date)
+
+# Check for null values
+colSums(is.na(merged_data))
+
+
+```
+
+```{r}
+
+# Select only the necessary columns with detailed comments
+filtered_data <- merged_data %>%
+  dplyr::select(
+    resultId,                      # Unique identifier for each race result
+    raceId,                        # Unique identifier for each race
+    driverId,                      # Unique identifier for each driver
+    constructorId,                 # Unique identifier for each constructor (team)
+    constructor_name = name.y,     # Name of the constructor (team)
+    grid,                          # Starting grid position of the driver
+    laps,                          # Total number of laps completed by the driver
+    positionOrder,                 # Final position of the driver in the race
+    fastestLap,                    # Lap number where the driver achieved the fastest time
+    fastestLapTime,                # Time duration of the fastest lap (formatted as a string, e.g., HH:MM:SS)
+    fastestLapSpeed,               # Speed achieved during the fastest lap
+    constructor_points = points.y, # Points earned by the constructor in the race
+    date                           # Date of the race
+  )
+
+```
+
+
+```{r}
+# Check the number of rows in the original dataset
+initial_rows <- nrow(filtered_data)
+
+# Filter data for the years 2018 to 2023
+filtered_data <- filtered_data %>%
+  filter(year(date) >= 2018 & year(date) <= 2023)
+
+# Check the number of rows after filtering by year
+rows_after_year_filter <- nrow(filtered_data)
+
+# Filter positions to ensure they are within the range of 1 to 20 and handle missing values
+filtered_data <- filtered_data %>%
+  mutate(
+    grid = ifelse(grid < 1 | grid > 20, NA, grid),
+    positionOrder = ifelse(positionOrder < 1 | positionOrder > 20, NA, positionOrder)
+  )
+
+# Check the number of rows after mutating grid and positionOrder
+rows_after_mutation <- nrow(filtered_data)
+
+# Remove rows with NA values
+filtered_data <- filtered_data %>%
+  na.omit()
+
+# Check the number of rows after removing NA values
+final_rows <- nrow(filtered_data)
+
+# Print how much data was removed at each step
+cat("Initial Rows:", initial_rows, "\n")
+cat("Rows After Year Filter:", rows_after_year_filter, "\n")
+cat("Rows After Mutation:", rows_after_mutation, "\n")
+cat("Final Rows After Removing NA:", final_rows, "\n")
+cat("Total Rows Removed:", initial_rows - final_rows, "\n")
+
+
+```
+
+Filtering the dataset to include only the years 2018 to 2023 ensures that the analysis focuses on recent race dynamics and reflects the impact of current Formula 1 regulations. This time frame provides a consistent and relevant representation of modern racing conditions, making the insights more applicable to today's competitive environment.
+
+```{r}
+# Load the pit_stops table
+pit_stops <- read.csv("C:/Users/chait/OneDrive/Desktop/EDA/data/pit_stops.csv")
+
+# Calculate the maximum number of pit stops made by each driver in each race
+max_pitstops <- pit_stops %>%
+  group_by(raceId, driverId) %>%
+  summarise(pitstops = max(stop, na.rm = TRUE)) %>%
+  ungroup()
+
+# Merge the pit stops data with the filtered dataset
+filtered_data_with_pitstops <- filtered_data %>%
+  left_join(max_pitstops, by = c("raceId", "driverId"))
+
+# Check for missing values
+colSums(is.na(filtered_data_with_pitstops))
+
+```
+
+
+#####EXPLORATORY GRAPHS#####
+
+1) CORRELATION HEATMAP BETWEEN ALL THE VARIABLES
+
+```{r}
+
+# Ensure all columns in numeric_columns are numeric
+numeric_columns <- filtered_data_with_pitstops %>%
+  dplyr::select(
+    grid, 
+    positionOrder, 
+    fastestLap, 
+    fastestLapSpeed, 
+    constructor_points, 
+    laps, 
+    pitstops  # Added pitstops as a relevant variable
+  ) %>%
+  mutate_all(~as.numeric(.))  # Convert all columns to numeric
+
+# Check the structure of numeric_columns
+str(numeric_columns)
+
+# Compute the correlation matrix
+correlation_matrix <- cor(numeric_columns, use = "complete.obs")
+
+# Melt the correlation matrix for plotting
+correlation_melted <- melt(correlation_matrix)
+
+# Create the heatmap
+library(ggplot2)
+ggplot(correlation_melted, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis(name = "Correlation", option = "C", limits = c(-1, 1)) +
+  geom_text(aes(label = round(value, 2)), color = "white", size = 4) +
+  labs(
+    title = "Correlation Heatmap of Key Variables",
+    x = "Variables",
+    y = "Variables"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+The correlation heatmap highlights key relationships: grid position strongly correlates with final position (0.64), showing that starting near the front improves race outcomes. Constructor points negatively correlate with final position (-0.53), indicating stronger teams achieve better results. Fastest lap and laps completed are moderately correlated (0.66), while pit stops show minimal impact, suggesting a nuanced influence. These findings emphasize the importance of starting positions and constructor performance in Formula 1 race outcomes.
+
+
+
+2) RELATION BETWEEN GRID AND FINAL POSITIONS. 
+
+i) Scatter Plot
+
+```{r}
+# Scatter plot to analyze the relationship between grid and final positions
+
+ggplot(filtered_data, aes(x = grid, y = positionOrder)) +
+  geom_jitter(alpha = 0.6, color = "darkblue", width = 0.3, height = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +
+  labs(
+    title = "Relationship Between Grid and Final Positions",
+    x = "Starting Grid Position",
+    y = "Final Position"
+  ) +
+  scale_x_continuous(limits = c(1, 20), breaks = seq(1, 20, 1)) +
+  scale_y_continuous(limits = c(1, 20), breaks = seq(1, 20, 1))
+  theme_minimal()
+
+
+```
+The plot demonstrates a good enough relationship in Formula 1 between starting grid positions and final race outcomes, with drivers starting in lower grid positions (closer to the front) generally achieving better final positions. However, the presence of outliers suggests that factors such as driver skill, constructor performance, and race dynamics also play a crucial role in determining the final results.
+
+
+ii) Histogram (FREQUENCY OF DRIVERS FINISHING IN THEIR STARTING GRID POSITION)
+```{r}
+
+
+# Filter data for drivers who finished in the same position they started
+same_position_data <- filtered_data %>%
+  filter(grid == positionOrder)
+
+# Count the number of occurrences for each grid position
+grid_histogram_data <- same_position_data %>%
+  group_by(grid) %>%
+  summarise(count = n())
+
+# Ensure grid positions from 1 to 20 are included, even if some have no occurrences
+grid_histogram_data <- tidyr::complete(grid_histogram_data, grid = 1:20, fill = list(count = 0))
+
+# Plot the histogram
+library(ggplot2)
+ggplot(grid_histogram_data, aes(x = grid, y = count)) +
+  geom_bar(stat = "identity", fill = "darkblue") +
+  scale_x_continuous(breaks = 1:20) +  # Ensure grid positions are displayed in order
+  labs(
+    title = "FREQUENCY OF DRIVERS FINISHING IN THEIR STARTING GRID POSITION",
+    x = "Grid Position (Start)",
+    y = "Frequency of Drivers Finishing in Starting(grid) Position"
+  ) +
+  theme_minimal()
+
+
+
+
+```
+
+
+3) 
+```{r}
+# Aggregate data to calculate median final position for each combination of grid and pit stops
+heatmap_data <- filtered_data_with_pitstops %>%
+  group_by(grid, pitstops) %>%
+  summarise(median_final_position = median(positionOrder, na.rm = TRUE)) %>%
+  ungroup()
+
+# Create the heatmap
+ggplot(heatmap_data, aes(x = grid, y = pitstops, fill = median_final_position)) +
+  geom_tile() +
+  scale_fill_gradient(low = "yellow", high = "red", name = "Median Final Position") +
+  labs(
+    title = "Combined Effect of Grid Position and Pit Stops on Final Position",
+    x = "Grid Position",
+    y = "Total Pit Stops"
+  ) +
+  scale_x_continuous(breaks = 1:20) + # Ensure grid position ticks 1-20
+  scale_y_continuous(breaks = 1:20) + # Ensure pit stops ticks 1-20
+  theme_minimal()
+```
+
+```{r}
+
+# Filter out rows with NA in 'pitstops'
+filtered_data_no_na <- filtered_data_with_pitstops %>%
+  filter(!is.na(pitstops))
+
+# Plot the boxplot without NA values
+ggplot(filtered_data_no_na, aes(x = factor(pitstops), y = positionOrder)) +
+  geom_boxplot(fill = "orange", color = "black", outlier.colour = "darkorange", outlier.size = 2) +
+  stat_summary(
+    fun = median, 
+    geom = "line", 
+    aes(group = 1),  # Ensures the line is drawn across all boxplots
+    color = "black", # Color for the median line
+    size = 1         # Adjust line thickness
+  ) +
+  labs(
+    title = "Impact of Pit Stops on Final Position",
+    x = "Total Pit Stops",
+    y = "Final Position"
+  ) +
+  theme_minimal()
+
+```
+The boxplot reveals that the number of pit stops generally shows limited variability in final race positions, as median positions remain inconsistent across different pit stop counts. While fewer pit stops tend to correlate with better race finishes, the relationship is weak, highlighting that pit stops alone are not a strong predictor of final position.
+
+4) BOXPLOTS - Constructor Performance by Final Position
+
+```{r}
+
+# Categorize constructors into Top, Mid, and Low performers based on their median final position
+constructor_performance <- filtered_data %>%
+  group_by(constructor_name) %>%
+  summarise(median_position = median(positionOrder, na.rm = TRUE)) %>%
+  mutate(
+    category = case_when(
+      median_position <= 6 ~ "Top Performer",   # Final positions close to 1
+      median_position <= 12 ~ "Mid Performer",  # Final positions in mid-range
+      TRUE ~ "Low Performer"                   # Higher final positions
+    )
+  )
+
+# Merge back with the original data for plotting
+plot_data <- filtered_data %>%
+  left_join(constructor_performance, by = "constructor_name")
+
+# Create the boxplot
+ggplot(plot_data, aes(x = reorder(constructor_name, positionOrder), y = positionOrder, fill = category)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("Top Performer" = "yellow", "Mid Performer" = "orange", "Low Performer" = "red")) +
+  labs(
+    title = "Constructor Performance by Final Position",
+    x = "Constructor",
+    y = "Final Position",
+    fill = "Category"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+The boxplot highlights the performance disparity among constructors based on their final race positions. Top-performing teams like Mercedes and Red Bull consistently finish in lower (better) positions, as reflected by their compact, low-positioned boxes. Mid-performing constructors like McLaren and Alpine F1 Team show moderate variability, while teams categorized as low performers, such as Williams and Haas F1 Team, tend to finish in higher (worse) positions.
+
+
+
+
+
+5) Impact of Fastest Lap Time on Final Position Across Constructors
+
+```{r}
+# Convert `fastestLapTime` to seconds
+filtered_data <- filtered_data %>%
+  mutate(
+    fastestLapTime_sec = period_to_seconds(hms(fastestLapTime))
+  )
+
+# Check the conversion
+#head(filtered_data$fastestLapTime_sec)
+```
+
+```{r}
+top_teams <- filtered_data %>%
+  filter(constructor_name %in% c("Mercedes", "Ferrari", "Red Bull", "McLaren", "Alpine F1 Team", "Alfa Romeo", "Williams" ))
+
+ggplot(top_teams, aes(x = positionOrder, y = fastestLapTime_sec, fill = constructor_name)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(alpha = 0.4, width = 0.2) +
+  labs(
+    title = "Fastest Lap Time by Final Position (Some Constructors)",
+    x = "Final Position",
+    y = "Fastest Lap Time (seconds)"
+  ) +
+  facet_wrap(~constructor_name, nrow = 1) +
+  theme_minimal()
+
+
+```
+
+Across most constructors, there is a noticeable trend where faster lap times (lower values on the y-axis) are generally associated with better final positions (lower values on the x-axis). This validates that achieving a fast lap time plays a critical role in securing better race outcomes.
+
+```{r}
+
+
+# Filter for selected constructors
+filtered_plot_data <- filtered_data %>%
+  filter(constructor_name %in% c("Mercedes"))
+
+# Contour plot with scatter points for selected constructors
+ggplot(filtered_plot_data, aes(x = positionOrder, y = fastestLapTime_sec)) +
+  geom_point(alpha = 0.3, color = "black") +  # Scatter points
+  stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = 0.5) +  # Contour density
+  scale_fill_viridis_c(option = "plasma") +  # Viridis color scale for density
+  facet_wrap(~constructor_name, scales = "free", ncol = 2) +  # Facet by constructors
+  labs(
+    title = "Contour Plot: Fastest Lap Time vs Final Position for Top Constructors",
+    x = "Final Position",
+    y = "Fastest Lap Time (seconds)",
+    fill = "Density"
+  ) +
+  theme_minimal(base_size = 1) +  # Larger font for readability
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),  # Larger facet labels
+    plot.title = element_text(size = 12, face = "bold", hjust = 0.5),  # Title style
+    axis.title = element_text(size = 12)  # Larger axis labels
+  )
+
+```
+
+
+##### MODELS #####
+
+Data Split into first and Second Half
+
+```{r}
+
+# Split data into training (first half) and test (second half)
+training_data <- filtered_data %>%
+  filter(month(date) >= 1 & month(date) <= 7)
+
+test_data <- filtered_data %>%
+  filter(month(date) >= 8)
+
+# Check structure of training and test datasets
+#str(training_data)
+#str(test_data)
+
+
+```
+
+
+
+##1. SIMPLE LINEAR MODEL ~ Grid
+```{r}
+
+# Train a linear regression model
+simple_model <- lm(positionOrder ~ grid, data = training_data)
+
+# Summarize the model to see coefficients
+summary(simple_model)
+
+
+```
+
+```{r}
+
+# Predict final positions for training and test datasets
+training_data$predicted_position <- predict(simple_model, newdata = training_data)
+test_data$predicted_position <- predict(simple_model, newdata = test_data)
+
+# Evaluate training data performance
+training_performance <- training_data %>%
+  summarise(
+    rmse = sqrt(mean((positionOrder - predicted_position)^2, na.rm = TRUE)),
+    mae = mean(abs(positionOrder - predicted_position), na.rm = TRUE)
+  )
+
+print(training_performance)
+
+# Evaluate test data performance
+test_performance <- test_data %>%
+  summarise(
+    rmse = sqrt(mean((positionOrder - predicted_position)^2, na.rm = TRUE)),
+    mae = mean(abs(positionOrder - predicted_position), na.rm = TRUE)
+  )
+
+print(test_performance)
+
+```
+
+
+```{r}
+
+ggplot(test_data, aes(x = positionOrder, y = predicted_position)) +
+  geom_jitter(color = "navy") +
+  geom_abline(slope = 1, intercept = 0, color = "red") +
+  labs(
+    title = "Actual vs. Predicted Final Positions (Simple Linear Model ~ Grid)",
+    x = "Actual Final Position",
+    y = "Predicted Final Position"
+  ) +
+  scale_x_continuous(limits = c(1, 20), breaks = seq(1, 20, by = 1)) +  # Remove 0 and set range from 1 to 20
+  theme_minimal()
+
+
+```
+
+##2. LINEAR MODEL WITH ADIITIONAL FEATURES
+```{r}
+
+# Prepare training and test datasets
+training_data <- filtered_data %>%
+  filter(month(date) >= 1 & month(date) <= 7) %>%
+  mutate(
+    fastestLap = as.numeric(fastestLap)  # Convert fastestLap to numeric
+  )
+
+test_data <- filtered_data %>%
+  filter(month(date) >= 8) %>%
+  mutate(
+    fastestLap = as.numeric(fastestLap)  # Ensure consistency in test data
+  )
+
+# Replace NAs in fastestLap with the column mean
+training_data$fastestLap[is.na(training_data$fastestLap)] <- median(training_data$fastestLap, na.rm = TRUE)
+test_data$fastestLap[is.na(test_data$fastestLap)] <- median(training_data$fastestLap, na.rm = TRUE)
+
+# Verify NAs are handled
+sum(is.na(training_data$fastestLap))  # Should return 0
+sum(is.na(test_data$fastestLap))      # Should return 0
+
+
+
+```
+
+
+```{r}
+
+# Build the model with additional variables
+enhanced_lmodel <- lm(positionOrder ~ grid + fastestLap + as.factor(constructorId) + constructor_points, data = training_data)
+
+# Summary of the model
+summary(enhanced_lmodel)
+
+
+```
+
+
+
+
+```{r}
+# Predict on training and test datasets
+training_data$predicted_position <- predict(enhanced_lmodel, newdata = training_data)
+test_data$predicted_position <- predict(enhanced_lmodel, newdata = test_data)
+
+# Function to calculate RMSE and MAE
+evaluate_model <- function(actual, predicted) {
+  rmse <- sqrt(mean((actual - predicted)^2, na.rm = TRUE))
+  mae <- mean(abs(actual - predicted), na.rm = TRUE)
+  return(list(RMSE = rmse, MAE = mae))
+}
+
+# Training data performance
+training_perf <- evaluate_model(training_data$positionOrder, training_data$predicted_position)
+print("Training Performance:")
+print(training_perf)
+
+# Test data performance
+test_perf <- evaluate_model(test_data$positionOrder, test_data$predicted_position)
+print("Test Performance:")
+print(test_perf)
+
+
+
+
+```
+When evaluating the model's performance, the training RMSE is 3.67 and the test RMSE is 3.88, both lower than the corresponding values of 4.58 (training) and 4.69 (test) from the simple model. Similarly, the MAE (Mean Absolute Error) has improved to 2.82 (training) and 2.89 (test) compared to 3.58 and 3.68 in the simple model. These improvements demonstrate that adding relevant features makes the model more robust and accurate, offering better predictions of final race positions in the Formula 1 context.
+
+
+
+```{r}
+
+library(ggplot2)
+
+# Plot for test dataset
+ggplot(test_data, aes(x = positionOrder, y = predicted_position)) +
+  geom_jitter(color = "navy") +
+  geom_abline(slope = 1, intercept = 0, color = "red") +
+  labs(
+    title = "Actual vs. Predicted Final Positions(Enhanced Linear Model)",
+    x = "Actual Final Position",
+    y = "Predicted Final Position",
+    caption = "Enhanced Linear Model: grid, fastestLap, constructorId, constructor_points"
+  ) +
+  theme_minimal()
+
+
+```
+
+
+```{r}
+AIC(simple_model)
+AIC(enhanced_model)
+
+```
+
+
+
+
+##3. ORDINAL REGRESSION MODEL
+
+
+
+```{r}
+
+# Inspect unique values in fastestLap that may be problematic
+unique(filtered_data$fastestLap)
+
+# Clean the fastestLap column
+filtered_data <- filtered_data %>%
+  mutate(
+    fastestLap = as.numeric(gsub("[^0-9\\.]", "", fastestLap))  # Remove non-numeric characters
+  )
+
+# Verify the result
+#sum(is.na(filtered_data$fastestLap))  # Count remaining NAs
+
+
+```
+
+##fastestLap: Lap number where the driver achieved their fastest lap.
+```{r}
+
+filtered_data <- filtered_data %>%
+  filter(!is.na(fastestLap))
+
+```
+
+```{r}
+
+
+library(ordinal)
+
+# Prepare training and test data
+training_data <- filtered_data %>%
+  filter(month(date) >= 1 & month(date) <= 7) %>%
+  mutate(
+    fastestLap = as.numeric(fastestLap),   # Ensure numeric type
+    positionOrder = as.factor(positionOrder)  # Convert final position to factor (ordinal)
+  )
+
+test_data <- filtered_data %>%
+  filter(month(date) >= 8) %>%
+  mutate(
+    fastestLap = as.numeric(fastestLap),
+    positionOrder = as.factor(positionOrder)
+  )
+
+
+# Extract year from the date column and include it in the dataset
+training_data <- training_data %>%
+  mutate(year = as.factor(year(date)))
+
+test_data <- test_data %>%
+  mutate(year = as.factor(year(date)))
+
+
+# Check the levels of positionOrder
+levels(training_data$positionOrder) <- as.character(sort(as.numeric(unique(training_data$positionOrder))))
+
+```
+
+
+
+
+```{r}
+# Train the ordinal logistic regression model with interaction
+ordinal_model <- clm(
+  positionOrder ~ grid + fastestLap + as.factor(constructorId) + constructor_points * year, 
+  data = training_data
+)
+
+# Summary of the updated model
+summary(ordinal_model)
+
+
+
+
+```
+
+
+
+```{r}
+# Predict class probabilities or classes
+predictions <- predict(ordinal_model, newdata = test_data, type = "class")
+
+# Ensure predictions are converted to a numeric vector if they are a list
+test_data$predicted_position <- as.numeric(as.character(unlist(predictions)))
+
+# Check the class
+class(test_data$predicted_position)
+
+
+```
+
+
+
+```{r}
+
+# Convert factors to numeric for plotting
+test_data$positionOrder <- as.numeric(as.character(test_data$positionOrder))
+test_data$predicted_position <- as.numeric(as.character(test_data$predicted_position))
+
+# Scatter plot
+library(ggplot2)
+ggplot(test_data, aes(x = positionOrder, y = predicted_position)) +
+  geom_jitter(alpha = 0.5, color="navy") +
+  geom_abline(slope = 1, intercept = 0, color = "darkred", linetype = "dashed") +
+  labs(
+    title = "Actual vs. Predicted Final Positions",
+    x = "Actual Final Position",
+    y = "Predicted Final Position"
+  ) +
+  theme_minimal()
+
+
+```
+
+
+```{r}
+
+# Unique final positions in the first half
+unique_first_half <- test_data %>%
+  dplyr::select(predicted_position) %>%
+  distinct() %>%
+  arrange(predicted_position)
+
+print("Unique Final Positions in First Half:")
+print(unique_first_half)
+
+# Unique final positions in the second half
+unique_second_half <- test_data %>%
+  dplyr::select(positionOrder) %>%
+  distinct() %>%
+  arrange(positionOrder)
+
+print("Unique Final Positions in Second Half:")
+print(unique_second_half)
+
+
+```
+
+
+
+```{r}
+
+
+constructor_predictions <- test_data %>%
+  group_by(constructor_name) %>%
+  summarise(
+    median_predicted_position = median(predicted_position, na.rm = TRUE),
+    median_actual_position = median(as.numeric(positionOrder), na.rm = TRUE)
+  )
+
+```
+
+
+```{r}
+constructor_predictions <- test_data %>%
+  group_by(constructor_name) %>%
+  summarise(
+    position_sd = sd(predicted_position, na.rm = TRUE)
+  )
+
+```
+```{r}
+# Overlay actual positions on the predicted positions boxplot
+ggplot(test_data, aes(x = constructor_name)) +
+  # Boxplot for predicted positions
+  geom_boxplot(aes(y = predicted_position), fill = "white", color = "black") +
+  
+  # Add points for actual positions
+  geom_jitter(aes(y = as.numeric(positionOrder)), color = "navy", alpha = 0.5, width = 0.2) +
+  
+  # Labels and theme
+  labs(
+    title = "Distribution of Predicted vs Actual Positions by Constructor",
+    x = "Constructor Name",
+    y = "Final Position"
+  ) +
+    
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+# Calculate Mean Absolute Error (MAE)
+mae <- mean(abs(test_data$predicted_position - as.numeric(test_data$positionOrder)), na.rm = TRUE)
+
+# Print the result
+print(paste("Mean Absolute Error (MAE):", round(mae, 2)))
+
+# Calculate RMSE for the ordinal model
+rmse <- sqrt(mean((test_data$predicted_position - test_data$positionOrder)^2, na.rm = TRUE))
+
+# Print the result
+print(paste("Root Mean Square Error (RMSE):", round(rmse, 2)))
+
+
+```
+```{r}
+AIC(simple_model)
+AIC(enhanced_lmodel)
+AIC(ordinal_model)
+```
+
+
+##4. RANDOM FOREST MODEL
+
+```{r}
+library(ranger)
+
+# Prepare data
+training_data$positionOrder <- as.numeric(training_data$positionOrder)
+
+# Extract year from the date column and include it in the dataset
+training_data <- training_data %>%
+  mutate(year = as.factor(year(date)))
+
+test_data <- test_data %>%
+  mutate(year = as.factor(year(date)))
+
+# Train a Random Forest model
+rf_model <- ranger(
+  positionOrder ~ grid + fastestLap + constructor_points + laps + fastestLapTime ,
+  data = training_data,
+  num.trees = 500,
+  importance = 'impurity'
+)
+# Clip predictions to the range [1, 20] and round
+test_data$predicted_position <- round(predict(rf_model, test_data)$predictions)
+test_data$predicted_position <- pmax(1, pmin(20, test_data$predicted_position))  # Constrain to 1–20
+
+
+# Evaluate MAE
+mae_rf <- mean(abs(test_data$predicted_position - test_data$positionOrder), na.rm = TRUE)
+print(paste("Random Forest MAE:", round(mae_rf, 2)))
+
+```
+```{r}
+# Feature Importance
+importance <- rf_model$variable.importance
+print("Feature Importance:")
+print(importance)
+
+# Plot Feature Importance
+library(ggplot2)
+importance_df <- data.frame(Feature = names(importance), Importance = importance)
+ggplot(importance_df, aes(x = reorder(Feature, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  coord_flip() +
+  labs(title = "Feature Importance", x = "Features", y = "Importance") +
+  theme_minimal()
+
+```
+```{r}
+# Calculate errors
+actual <- test_data$positionOrder
+predicted <- test_data$predicted_position
+
+mae_rf <- mean(abs(predicted - actual), na.rm = TRUE)
+rmse_rf <- sqrt(mean((predicted - actual)^2, na.rm = TRUE))
+
+# Print results
+print(paste("Mean Absolute Error (MAE):", round(mae_rf, 2)))
+print(paste("Root Mean Square Error (RMSE):", round(rmse_rf, 2)))
+
+```
+
+
+
+```{r}
+# Scatter plot of Actual vs Predicted Positions
+library(ggplot2)
+
+ggplot(test_data, aes(x = positionOrder, y = predicted_position)) +
+  geom_jitter(color = "blue", alpha = 0.5) +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+  labs(
+    title = "Actual vs Predicted Final Positions",
+    x = "Actual Final Position",
+    y = "Predicted Final Position"
+  ) +
+  theme_minimal()
+
+```
+```{r}
+# Calculate residuals
+test_data$residuals <- test_data$positionOrder - test_data$predicted_position
+
+# Plot residuals
+ggplot(test_data, aes(x = predicted_position, y = residuals)) +
+  geom_jitter(color = "darkorange", alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
+  labs(
+    title = "Residuals Plot (Prediction Errors)",
+    x = "Predicted Final Position",
+    y = "Residuals (Actual - Predicted)"
+  ) +
+  theme_minimal()
+
+```
+
+
+
+## 5.RANDOM FOREST MODEL WITH INTERACTIVE TERM 
+
+```{r}
+# Create the interaction term
+training_data <- training_data %>%
+  mutate(constructor_points_interaction = as.numeric(constructorId) * constructor_points)
+
+test_data <- test_data %>%
+  mutate(constructor_points_interaction = as.numeric(constructorId) * constructor_points)
+
+# Train Random Forest with the new interaction term
+library(ranger)
+
+rf_model <- ranger(
+  positionOrder ~ grid + fastestLap + constructor_points + laps + fastestLapTime  + constructor_points_interaction,
+  data = training_data,
+  num.trees = 500,
+  importance = "impurity"
+)
+
+
+# Predict on the test data
+test_data$predicted_position <- predict(rf_model, test_data)$predictions
+
+# Round predictions and clip to 1–20 range
+test_data$predicted_position <- round(test_data$predicted_position)
+test_data$predicted_position <- pmax(1, pmin(20, test_data$predicted_position))
+
+
+```
+
+```{r}
+# Calculate metrics
+mae <- mean(abs(test_data$predicted_position - as.numeric(test_data$positionOrder)), na.rm = TRUE)
+rmse <- sqrt(mean((test_data$predicted_position - as.numeric(test_data$positionOrder))^2, na.rm = TRUE))
+
+# Print results
+print(paste("Mean Absolute Error (MAE):", round(mae, 2)))
+print(paste("Root Mean Square Error (RMSE):", round(rmse, 2)))
+
+
+```
+
+```{r}
+# Plot feature importance
+importance <- rf_model$variable.importance
+importance_df <- data.frame(Feature = names(importance), Importance = importance)
+
+ggplot(importance_df, aes(x = reorder(Feature, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "darkorange") +
+  coord_flip() +
+  labs(title = "Feature Importance", x = "Features", y = "Importance") +
+  theme_minimal()
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(test_data, aes(x = positionOrder, y = predicted_position)) +
+  geom_jitter(color = "blue", alpha = 0.6) +
+  geom_abline(slope = 1, intercept = 0, color = "darkred", linetype = "dashed") +
+  labs(
+    title = "Actual vs. Predicted Final Positions (Random Forest With Interaction Term)",
+    x = "Actual Final Position",
+    y = "Predicted Final Position"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+# Calculate residuals
+test_data$residuals <- as.numeric(test_data$positionOrder) - test_data$predicted_position
+
+# Residuals plot
+ggplot(test_data, aes(x = predicted_position, y = residuals)) +
+  geom_jitter(color = "darkgreen", alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+  labs(
+    title = "Residuals Plot (Prediction Errors)",
+    x = "Predicted Final Position",
+    y = "Residuals (Actual - Predicted)"
+  ) +
+  theme_minimal()
+
+
+```
+
+```{r}
+
+
+```
+
